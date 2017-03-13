@@ -523,19 +523,35 @@ Provides access to data on built-in JSON files
 		},
 		
 		gunfit :function(shipMstId, itemMstId){
-			if (typeof this._gunfit[shipMstId+""] == "undefined") {
+			if (this._gunfit[shipMstId] === undefined) {
 				return false;
 			}
 			
-			if (typeof itemMstId != "undefined") {
-				if (typeof this._gunfit[shipMstId+""][itemMstId+""] != "undefined") {
-					return this._gunfit[shipMstId+""][itemMstId+""];
+			if (itemMstId !== undefined) {
+				if (this._gunfit[shipMstId][itemMstId] !== undefined) {
+					return this._gunfit[shipMstId][itemMstId];
 				} else {
 					return false;
 				}
 			} else {
-				return this._gunfit[shipMstId+""];
+				return this._gunfit[shipMstId];
 			}
+		},
+		
+		sortedGunfits :function(shipMstId){
+			var gunfits = this.gunfit(shipMstId);
+			if(gunfits !== false) {
+				var sortedGearIds = Object.keys(gunfits).sort((a, b) =>
+						// Unknown go last
+						(gunfits[a] === "" || gunfits[b] === "") ? 1 :
+						// By day bonus desc
+						gunfits[b][0] - gunfits[a][0]
+						// Fallback to ID asc
+						|| Number(a) - Number(b)
+				);
+				return sortedGearIds.map(id => ({id: id, bonus: gunfits[id]}));
+			}
+			return false;
 		}
 	};
 	
