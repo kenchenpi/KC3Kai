@@ -28,7 +28,7 @@ script:
 - export KC3_VERSION=$(node -p -e "require('./package.json').version")
 - if [ $TRAVIS_BRANCH == 'webstore' ] || [ $TRAVIS_BRANCH == 'release' ] || [ $TRAVIS_BRANCH == 'debug-webstore' ]; then grunt build; fi
 - if [ $TRAVIS_BRANCH == 'webstore' ] && [ $TRAVIS_PULL_REQUEST == "false" ]; then grunt webstore; fi
-- if [ $TRAVIS_BRANCH == 'debug-webstore' ] && [ $TRAVIS_PULL_REQUEST == "false" ]; then grunt webstore; fi
+- if [ $TRAVIS_BRANCH == 'debug-webstore' ] && [ $TRAVIS_PULL_REQUEST == "false" ]; then grunt webstore -v; fi
 - if [ $TRAVIS_BRANCH == 'release' ] && [ $TRAVIS_PULL_REQUEST == "false" ]; then grunt package; fi
 
 # DEPLOY TO GITHUB RELEASES
